@@ -30,8 +30,7 @@ unsafe fn pre_init() {
 fn main() -> ! {
     // Obtain all required HAL instances
     let flash = hal::flash::Flash::new(stm32ral::flash::Flash::take().unwrap());
-    let rcc = hal::rcc::RCC::new(stm32ral::rcc::RCC::take().unwrap(),
-                                 stm32ral::crs::CRS::take().unwrap());
+    let rcc = hal::rcc::RCC::new(stm32ral::rcc::RCC::take().unwrap());
     let nvic = hal::nvic::NVIC::new(stm32ral::nvic::NVIC::take().unwrap(),
                                     stm32ral::scb::SCB::take().unwrap());
     let dma = hal::dma::DMA::new(stm32ral::dma1::DMA1::take().unwrap());
@@ -42,16 +41,17 @@ fn main() -> ! {
 
     // Define pinout
     let pins = hal::gpio::Pins {
-        led: gpioa.pin(2),
-        cs: gpioa.pin(3),
+        led: gpioa.pin(14),
+        cs: gpiob.pin(1),
         fpga_rst: gpioa.pin(4),
         sck: gpioa.pin(5),
-        flash_so: gpioa.pin(6),
-        flash_si: gpioa.pin(7),
-        fpga_so: gpiob.pin(4),
-        fpga_si: gpiob.pin(5),
-        tpwr_det: gpiob.pin(6),
-        tpwr_en: gpiob.pin(7),
+        flash_so: gpioa.pin(0),
+        flash_si: gpioa.pin(1),
+        fpga_so: gpiob.pin(6),
+        fpga_si: gpiob.pin(7),
+
+        tpwr_det: gpioa.pin(13),
+        tpwr_en: gpioa.pin(3),
     };
 
     // Create App instance with the HAL instances

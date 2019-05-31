@@ -52,21 +52,34 @@ impl<'a> App<'a> {
     pub fn setup(&mut self) {
         // Configure flash latency to 1 wait state with prefetch
         self.flash.setup();
+
         // Configure system clock to HSI48 and enable CRS and peripheral clocks
         self.rcc.setup();
+
         // Enable SEVONPEND
         self.nvic.setup();
+
         // Configure DMA for SPI1 transfers
         self.dma.setup();
+
         // Configure GPIOs
         self.pins.setup();
+
         // Configure SPI peripheral
         self.spi.setup();
+
         // Configure USB peripheral and connect to host
         self.usb.setup();
     }
 
     pub fn poll(&mut self) {
+        /*
+        // loop {
+        self.pins.led.set_low();
+        self.pins.led.set_high();
+        // }
+        */
+
         if self.nvic.usb_pending() {
             // Handle USB interrupts
             if let Some(req) = self.usb.interrupt() {
